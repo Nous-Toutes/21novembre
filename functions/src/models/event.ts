@@ -1,6 +1,8 @@
-import {db} from '../utils/firestore';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
+import {db} from '../utils/firestore';
 import {collection, subcollection} from 'typesaurus';
+import {firestore} from 'firebase-admin';
 
 export enum Category {
 	POLICE,
@@ -9,12 +11,10 @@ export enum Category {
 
 export type Event = {
 	name: string;
-	location: {
-		latitude: number;
-		longitude: number;
-	};
+	location: firestore.GeoPoint;
 	category: Category;
 	number_of_people: number;
+	whatsappUrl: string | undefined;
 };
 
 export type Counteur = {
