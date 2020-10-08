@@ -4,7 +4,7 @@ import {mailchimp} from '../utils/mailchimp';
 import {MAILCHIMP_AUDIENCE_ID} from '../utils/config';
 
 // SUBSCRIBE_TO_NEWSLETTER
-export const subscribed_to_newsletter = functions.firestore
+export const subscribed_to_newsletter = functions.region('europe-west3').firestore
 	.document('events/{eventId}/feminists/{feministId}')
 	.onCreate(async (snap, _context) => {
 		const data = snap.data();

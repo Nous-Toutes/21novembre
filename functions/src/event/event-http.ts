@@ -4,7 +4,7 @@ import {all, set, update, get, field} from 'typesaurus';
 import {events, feminists} from '../models/event';
 import {firestore} from '../utils/firestore';
 
-export const eventsFunction = functions.https.onRequest(async (request, response) => {
+export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	if (request.method !== 'GET') {
 		response.status(404).send(`request /events with method ${request.method} dosn't exist`);
 		return;
@@ -30,7 +30,7 @@ const checkMissingParameters = (element_to_check: string[], request: functions.h
 };
 
 // GET EVENT
-export const joinEvent = functions.https.onRequest(async (request, response) => {
+export const joinEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	if (request.method !== 'POST') {
 		response.status(404).send(`request /joinEvent with method ${request.method} dosn't exist`);
 		return;
@@ -81,7 +81,7 @@ export const joinEvent = functions.https.onRequest(async (request, response) => 
 	response.status(200).send('ok!');
 });
 
-export const candidatEvent = functions.https.onRequest(async (request, response) => {
+export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	response.status(200).send('ok!');
 });
 
