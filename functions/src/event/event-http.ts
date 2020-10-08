@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 
 import {all, set, update, get, field} from 'typesaurus';
-import {events, feminists} from '../models/event';
+import {events, feminists, STATUS, leaders, DATE} from '../models/event';
 import {firestore} from '../utils/firestore';
 
 export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
@@ -36,7 +36,6 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
-	// Check data arrived
 	const element_to_check = ['first_name', 'last_name', 'email', 'event_id', 'zipcode', 'phone_number'];
 	const errors = checkMissingParameters(element_to_check, request);
 
@@ -47,13 +46,10 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 
 	const {event_id}: {event_id: string} = request.body;
 
-	// Check less then 50 people !
-	const feminist = feminists(event_id);
-
 	const event = await get(events, event_id);
 
 	if (!event?.data) {
-		response.status(400).send(`the event source, ${event_id} doesn't match any user`);
+		response.status(400).send(`the event id: ${event_id} doesn't match any event`);
 		return;
 	}
 
@@ -62,6 +58,8 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
+	const feminist = feminists(event_id);
+
 	// Check exist before so we don't increment if it's exist
 	await set(feminist, request.body.email, {
 		email: request.body.email,
@@ -69,7 +67,8 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		first_name: request.body.first_name,
 		last_name: request.body.last_name,
 		zipcode: request.body.zipcode,
-		phone_number: request.body.phone_number
+		phone_number: request.body.phone_number,
+		date: DATE.SEPTEMBER
 	});
 
 	// Increment the value of number of people
@@ -82,6 +81,46 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 });
 
 export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
+	if (request.method !== 'POST') {
+		response.status(404).send(`request /joinEvent with method ${request.method} dosn't exist`);
+		return;
+	}
+
+	const element_to_check = ['first_name', 'last_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url'];
+	const errors = checkMissingParameters(element_to_check, request);
+
+	if (errors?.length) {
+		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST request`);
+		return;
+	}
+
+	const {event_id}: {event_id: string} = request.body;
+
+	const event = await get(events, event_id);
+
+	if (!event?.data) {
+		response.status(400).send(`the event id: ${event_id} doesn't match any event`);
+		return;
+	}
+
+	if (event?.data?.status !== STATUS.VALIDATE) {
+		response.status(400).send(`the event source, ${event_id} is already validate`);
+		return;
+	}
+
+	const leader = leaders(event_id);
+
+	await set(leader, request.body.email, {
+		email: request.body.email,
+		event_id: request.body.event_id,
+		first_name: request.body.first_name,
+		last_name: request.body.last_name,
+		zipcode: request.body.zipcode,
+		phone_number: request.body.phone_number,
+		whatsappUrl: request.body.whatsappUrl,
+		date: DATE.SEPTEMBER
+	});
+
 	response.status(200).send('ok!');
 });
 
