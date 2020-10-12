@@ -1,8 +1,10 @@
 import * as functions from 'firebase-functions';
 
 import {all, set, update, get, field} from 'typesaurus';
-import {events, feminists, STATUS, leaders} from '../models/event';
+import {events, feminists, STATUS, leaders, Event} from '../models/event';
 import {firestore} from '../utils/firestore';
+
+type EventResponse = Event & {isFull: boolean};
 
 export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	if (request.method !== 'GET') {
@@ -11,9 +13,16 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 	}
 
 	const all_event = await all(events);
-	const event_normalize = all_event.map(event => {
-		const newEvent = event?.data;
-		newEvent.whatsappUrl = undefined;
+
+	const event_normalize: EventResponse[] = all_event.map(event => {
+		const isFull = (event.data.number_of_people >= 49);
+
+		const newEvent: EventResponse = {
+			...event?.data,
+			whatsappUrl: undefined,
+			isFull
+		};
+
 		return newEvent;
 	});
 
@@ -129,10 +138,8 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		optin: request.body.optin
 	});
 
-	// Update the event to +1 for leader and whatsapp URL
+	// Don't updateG the event to +1 for leader and whatsapp URL
 	await update(events, event_id, [
-		// @ts-ignore
-		field('number_of_people', firestore.FieldValue.increment(1)),
 		field('whatsappUrl',	request.body.whatsappUrl),
 		field('status',	STATUS.VALIDATE)
 	]);
