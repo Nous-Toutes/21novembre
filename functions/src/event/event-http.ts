@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 
 import {all, set, update, get, field} from 'typesaurus';
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, leaders, Event} from '../models/event';
 import {firestore} from '../utils/firestore';
 
