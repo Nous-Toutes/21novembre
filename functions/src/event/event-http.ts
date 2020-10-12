@@ -90,7 +90,10 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		field('number_of_people', firestore.FieldValue.increment(1))
 	]);
 
-	response.status(200).json(event.data);
+	const isFull = (event.data.number_of_people >= 49);
+	const eventReponse: EventResponse = {...event.data, isFull};
+
+	response.status(200).json(eventReponse);
 });
 
 export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
