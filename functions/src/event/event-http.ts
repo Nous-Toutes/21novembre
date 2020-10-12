@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 
 import {all, set, update, get, field} from 'typesaurus';
-import {events, feminists, STATUS, leaders, DATE} from '../models/event';
+import {events, feminists, STATUS, leaders} from '../models/event';
 import {firestore} from '../utils/firestore';
 
 export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
@@ -57,7 +57,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
-	if (event?.data.number_of_people >= 50) {
+	if (event?.data.number_of_people >= 49) {
 		response.status(400).send(`the event source, ${event_id} already have 50 peoples`);
 		return;
 	}
