@@ -4,9 +4,6 @@ import {db} from '../utils/firestore';
 import {collection, subcollection} from 'typesaurus';
 import {firestore} from 'firebase-admin';
 
-export enum DATE {
-	'SEPTEMBER' ='SEPTEMBER'
-}
 export enum Category {
 	POLICE = 'POLICE',
 	JUSTICE = 'JUSTICE'
@@ -14,7 +11,6 @@ export enum Category {
 
 export enum STATUS {
 	WAITING_FOR_LEADER = 'WAITING_FOR_LEADER',
-	WAITING_FOR_VALIDATION= 'WAITING_FOR_VALIDATION',
 	VALIDATE = 'VALIDATE'
 }
 
@@ -37,7 +33,7 @@ export type Feminist = {
 	event_id: string;
 	zipcode: string;
 	phone_number: string;
-	date: DATE;
+	optin: boolean;
 };
 
 export type localLeader = {
@@ -47,7 +43,7 @@ export type localLeader = {
 	zipcode: string;
 	phone_number: string;
 	whatsappUrl: string;
-	date: DATE;
+	optin: boolean;
 };
 
 export const events = collection<Event>('events');

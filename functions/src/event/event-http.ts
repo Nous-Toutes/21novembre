@@ -40,7 +40,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
-	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number'];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', "optin"];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -71,7 +71,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		first_name: request.body.first_name,
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
-		date: DATE.SEPTEMBER
+		optin: request.body.optin
 	});
 
 	// Increment the value of number of people
@@ -89,7 +89,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		return;
 	}
 
-	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url'];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url', "optin"];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -120,7 +120,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
 		whatsappUrl: request.body.whatsappUrl,
-		date: DATE.SEPTEMBER
+		optin: request.body.optin,
 	});
 
 	response.status(200).send('ok!');

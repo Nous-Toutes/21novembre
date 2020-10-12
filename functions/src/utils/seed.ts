@@ -25,15 +25,6 @@ export const seedEvent = functions.https.onRequest(async (request, response) => 
 		status: STATUS.WAITING_FOR_LEADER
 	});
 
-	set(events, 'seed-event-waiting', {
-		name: 'commisseriat du 12 ême arrondissement',
-		category: Category.JUSTICE,
-		location: new admin.firestore.GeoPoint(48.8534, 2.3488),
-		number_of_people: 0,
-		whatsappUrl: undefined,
-		status: STATUS.WAITING_FOR_VALIDATION
-	});
-
 	response.status(200).end();
 });
 
