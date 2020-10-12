@@ -11,7 +11,11 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 	}
 
 	const all_event = await all(events);
-	const event_normalize = all_event.map(event => event?.data);
+	const event_normalize = all_event.map(event => {
+		const newEvent = event?.data
+		newEvent.whatsappUrl = undefined;
+		return newEvent
+	});
 
 	response.status(200).json(event_normalize).end();
 });
@@ -36,7 +40,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
-	const element_to_check = ['first_name', 'last_name', 'email', 'event_id', 'zipcode', 'phone_number'];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number'];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -65,7 +69,6 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		email: request.body.email,
 		event_id: request.body.event_id,
 		first_name: request.body.first_name,
-		last_name: request.body.last_name,
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
 		date: DATE.SEPTEMBER
@@ -86,7 +89,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		return;
 	}
 
-	const element_to_check = ['first_name', 'last_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url'];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url'];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -114,7 +117,6 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		email: request.body.email,
 		event_id: request.body.event_id,
 		first_name: request.body.first_name,
-		last_name: request.body.last_name,
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
 		whatsappUrl: request.body.whatsappUrl,

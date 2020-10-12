@@ -33,7 +33,6 @@ export type Counteur = {
 
 export type Feminist = {
 	first_name: string;
-	last_name: string;
 	email: string;
 	event_id: string;
 	zipcode: string;
@@ -43,7 +42,6 @@ export type Feminist = {
 
 export type localLeader = {
 	first_name: string;
-	last_name: string;
 	email: string;
 	event_id: string;
 	zipcode: string;
