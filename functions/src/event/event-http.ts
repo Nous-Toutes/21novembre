@@ -12,9 +12,9 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 
 	const all_event = await all(events);
 	const event_normalize = all_event.map(event => {
-		const newEvent = event?.data
+		const newEvent = event?.data;
 		newEvent.whatsappUrl = undefined;
-		return newEvent
+		return newEvent;
 	});
 
 	response.status(200).json(event_normalize).end();
@@ -40,7 +40,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		return;
 	}
 
-	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', "optin"];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'optin'];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -80,7 +80,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		field('number_of_people', firestore.FieldValue.increment(1))
 	]);
 
-	response.status(200).json(event.data)
+	response.status(200).json(event.data);
 });
 
 export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
@@ -89,7 +89,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		return;
 	}
 
-	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url', "optin"];
+	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url', 'optin'];
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
@@ -114,7 +114,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 	const leader = leaders(event_id);
 	const existing_leaders = await all(leader);
 
-	if(existing_leaders.length){
+	if (existing_leaders?.[0]) {
 		response.status(400).send(`There is already a leader for the event : ${event_id}`);
 		return;
 	}
@@ -126,16 +126,15 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
 		whatsappUrl: request.body.whatsappUrl,
-		optin: request.body.optin,
+		optin: request.body.optin
 	});
 
-
-	// update the event to +1 for leader and whatsapp URL
+	// Update the event to +1 for leader and whatsapp URL
 	await update(events, event_id, [
 		// @ts-ignore
 		field('number_of_people', firestore.FieldValue.increment(1)),
-		field("whatsappUrl",	request.body.whatsappUrl),
-		field("status",	STATUS.VALIDATE),
+		field('whatsappUrl',	request.body.whatsappUrl),
+		field('status',	STATUS.VALIDATE)
 	]);
 
 	response.status(200).send('ok!');

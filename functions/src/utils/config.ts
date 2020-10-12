@@ -15,6 +15,7 @@ if (!isString(MAILCHIMP_AUDIENCE_ID)) {
 if (!isString(MAILCHIMP_API_KEY)) {
 	throw new Error('Missing MAILCHIMP_AUDIENCE_ID');
 }
+
 if (!isString(MANDRILL_API_KEY)) {
 	throw new Error('Missing MANDRILL_API_KEY');
 }

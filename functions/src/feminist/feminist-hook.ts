@@ -20,7 +20,7 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 		}
 
 		if (!data?.optin) {
-			functions.logger.info("The feminist doesnt want to opt-in");
+			functions.logger.info('The feminist doesnt want to opt-in');
 			return;
 		}
 
@@ -43,16 +43,13 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 		} catch (error: unknown) {
 			functions.logger.error(error);
 		}
-	
-
 
 	// SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
 	// Vous êtes bien inscrite à l’événement
 	// Vous êtes sur liste d’attente
-});
+	});
 
-
-export const subscribed_leader_to_newsletter = functions.region('europe-west3').firestore	
+export const subscribed_leader_to_newsletter = functions.region('europe-west3').firestore
 	.document('events/{eventId}/leaders/{leaderId}')
 	.onCreate(async (snap, _context) => {
 		const data = snap.data();
@@ -68,10 +65,9 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 		}
 
 		if (!data?.optin) {
-			functions.logger.info("The feminist doesnt want to opt-in");
+			functions.logger.info('The feminist doesnt want to opt-in');
 			return;
 		}
-
 
 		try {
 			const results = await mailchimp.post(
@@ -92,13 +88,9 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 		} catch (error: unknown) {
 			functions.logger.error(error);
 		}
-	
 
+		//  SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
+		// Vous êtes bien inscrite comme organisatrice
+		//  REMOVE PEOPLE FROM THE JAUGE
+	});
 
-	//TODO: SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
-
-	// Vous êtes bien inscrite comme organisatrice
-});
-
-
-// TODO: REMOVE PEOPLE FROM THE JAUGE
