@@ -112,6 +112,12 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 	}
 
 	const leader = leaders(event_id);
+	const existing_leaders = await all(leader);
+
+	if(existing_leaders.length){
+		response.status(400).send(`There is already a leader for the event : ${event_id}`);
+		return;
+	}
 
 	await set(leader, request.body.email, {
 		email: request.body.email,
@@ -122,6 +128,15 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		whatsappUrl: request.body.whatsappUrl,
 		optin: request.body.optin,
 	});
+
+
+	// update the event to +1 for leader and whatsapp URL
+	await update(events, event_id, [
+		// @ts-ignore
+		field('number_of_people', firestore.FieldValue.increment(1)),
+		field("whatsappUrl",	request.body.whatsappUrl),
+		field("status",	STATUS.VALIDATE),
+	]);
 
 	response.status(200).send('ok!');
 });
