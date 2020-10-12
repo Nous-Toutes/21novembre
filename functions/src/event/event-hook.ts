@@ -5,8 +5,8 @@ import {mailchimp} from '../utils/mailchimp';
 // VALIDATE EVENT SEND AN EMAIL TO THE PEOPLE
 export const send_email_on_event_validate = functions.region('europe-west3').firestore
 	.document('events/{eventId}')
-	.onUpdate(async (snap, _context) => {
-        const data = snap.data();
+	.onUpdate(async (_snap, _context) => {
+        // const data = snap.data();
         
         // Check if e-mail not send already 
 
