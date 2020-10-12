@@ -80,7 +80,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		field('number_of_people', firestore.FieldValue.increment(1))
 	]);
 
-	response.status(200).send('ok!');
+	response.status(200).json(event.data)
 });
 
 export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
