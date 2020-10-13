@@ -1,6 +1,6 @@
 import {set} from 'typesaurus';
 
-import {events, Category, STATUS} from '../models/event';
+import {events, Category, STATUS} from './model';
 
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';

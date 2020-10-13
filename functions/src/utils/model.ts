@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import {db} from '../utils/firestore';
+import {db} from './firestore';
 import {collection, subcollection} from 'typesaurus';
 import {firestore} from 'firebase-admin';
 

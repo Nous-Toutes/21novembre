@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 
 import {all, set, update, get, field} from 'typesaurus';
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-import {events, feminists, STATUS, leaders, Event} from '../models/event';
+import {events, feminists, STATUS, leaders, Event} from '../utils/model';
 import {firestore} from '../utils/firestore';
 
 type EventResponse = Event & {isFull: boolean};
@@ -15,7 +15,7 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 
 	const all_event = await all(events);
 
-	const event_normalize: EventResponse[] = all_event.map(event => {
+	const events_normalize: EventResponse[] = all_event.map(event => {
 		const isFull = (event.data.number_of_people >= 49);
 
 		const newEvent: EventResponse = {
@@ -27,7 +27,7 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 		return newEvent;
 	});
 
-	response.status(200).json(event_normalize).end();
+	response.status(200).json(events_normalize).end();
 });
 
 const checkMissingParameters = (element_to_check: string[], request: functions.https.Request) => {
@@ -144,7 +144,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 
 	// Don't updateG the event to +1 for leader and whatsapp URL
 	await update(events, event_id, [
-		field('whatsappUrl',	request.body.whatsappUrl),
+		field('whatsappUrl', request.body.whatsappUrl),
 		field('status',	STATUS.VALIDATE)
 	]);
 
