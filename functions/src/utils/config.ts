@@ -8,6 +8,10 @@ const MAILCHIMP_AUDIENCE_ID: string = functions.config()?.mailchimp?.mailchimp_a
 const MAILCHIMP_API_KEY: string = functions.config()?.mailchimp?.mailchimp_api_key;
 const MANDRILL_API_KEY: string = functions.config()?.mailchimp?.mandrill_api_key;
 
+// CONFIG EXTERNE neded
+const SENDER_EMAIL: string = functions.config()?.mailchimp?.sender_email;
+// Const SENDER_EMAIL = 'contact@noustoutes.org';
+
 if (!isString(MAILCHIMP_AUDIENCE_ID)) {
 	throw new Error('Missing MAILCHIMP_API_KEY');
 }
@@ -20,4 +24,4 @@ if (!isString(MANDRILL_API_KEY)) {
 	throw new Error('Missing MANDRILL_API_KEY');
 }
 
-export {MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID, MANDRILL_API_KEY};
+export {MAILCHIMP_API_KEY, MAILCHIMP_AUDIENCE_ID, MANDRILL_API_KEY, SENDER_EMAIL};

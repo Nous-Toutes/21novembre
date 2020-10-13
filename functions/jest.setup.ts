@@ -12,10 +12,25 @@ const testEnv = test(
 	path.resolve(__dirname, './nous-toutes-test.json')
 );
 
+
 testEnv.mockConfig(
 	{
 		mailchimp: {
 			mailchimp_audience_id: 'FEMINIST',
-			mailchimp_api_key: 'FEMINIST'
+			mailchimp_api_key: 'FEMINIST',
+			mandrill_api_key: 'FEMINIST',
+			sender_email: 'FEMINIST',
 		}
 	});
+
+jest.mock( './src/utils/mailchimp.ts', () => {
+	return {
+		mailchimp: jest.fn().mockReturnValue(undefined), 
+		sendTransactionalEmail: jest.fn().mockReturnValue(undefined),
+		TEMPLATE_IDS: jest.fn().mockReturnValue(undefined), 
+		subscribeToMailchimp: jest.fn().mockReturnValue(undefined),
+		sendConfirmationCampagnUnique: jest.fn().mockReturnValue(undefined)
+	};
+});
+
+export  {testEnv}

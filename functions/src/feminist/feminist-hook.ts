@@ -1,7 +1,6 @@
 
 import * as functions from 'firebase-functions';
-import {mailchimp} from '../utils/mailchimp';
-import {MAILCHIMP_AUDIENCE_ID} from '../utils/config';
+import {mailchimp, subscribeToMailchimp} from '../utils/mailchimp';
 
 // SUBSCRIBE_TO_NEWSLETTER
 export const subscribed_to_newsletter = functions.region('europe-west3').firestore
@@ -25,17 +24,10 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 		}
 
 		try {
-			const results = await mailchimp.post(
-				`/lists/${MAILCHIMP_AUDIENCE_ID}/members`,
-				{
-					email_address: data?.email,
-					status: 'subscribed'
-				}
-			);
+			const results = await subscribeToMailchimp(data?.email);
 
 			functions.logger.log(
 			data?.email,
-			MAILCHIMP_AUDIENCE_ID,
 			results.id,
 			'subscribed'
 			);
@@ -44,7 +36,8 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 			functions.logger.error(error);
 		}
 
-	// SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
+		// SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
+
 	// Vous êtes bien inscrite à l’événement
 	// Vous êtes sur liste d’attente
 	});
@@ -70,17 +63,10 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 		}
 
 		try {
-			const results = await mailchimp.post(
-				`/lists/${MAILCHIMP_AUDIENCE_ID}/members`,
-				{
-					email_address: data?.email,
-					status: 'subscribed'
-				}
-			);
+			const results = await subscribeToMailchimp(data?.email);
 
 			functions.logger.log(
 			data?.email,
-			MAILCHIMP_AUDIENCE_ID,
 			results.id,
 			'subscribed'
 			);
@@ -88,9 +74,5 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 		} catch (error: unknown) {
 			functions.logger.error(error);
 		}
-
-		//  SEND E_MAIL TO PEOPLE EXISTING to wait or with validateData
-		// Vous êtes bien inscrite comme organisatrice
-		//  REMOVE PEOPLE FROM THE JAUGE
 	});
 

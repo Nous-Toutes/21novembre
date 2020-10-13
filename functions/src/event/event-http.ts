@@ -4,30 +4,35 @@ import {all, set, update, get, field} from 'typesaurus';
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, leaders, Event} from '../utils/model';
 import {firestore} from '../utils/firestore';
+import {logger} from 'firebase-functions';
 
 type EventResponse = Event & {isFull: boolean};
 
 export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
-	if (request.method !== 'GET') {
-		response.status(404).send(`request /events with method ${request.method} dosn't exist`);
-		return;
+	try {
+		if (request.method !== 'GET') {
+			response.status(404).send(`request /events with method ${request.method} dosn't exist`);
+			return;
+		}
+
+		const all_event = await all(events);
+
+		const events_normalize: EventResponse[] = all_event.map(event => {
+			const isFull = (event.data.number_of_people >= 49);
+
+			const newEvent: EventResponse = {
+				...event?.data,
+				whatsappUrl: undefined,
+				isFull
+			};
+
+			return newEvent;
+		});
+
+		response.status(200).json(events_normalize).end();
+	} catch (genericError) {
+		logger.error(new Error(genericError));
 	}
-
-	const all_event = await all(events);
-
-	const events_normalize: EventResponse[] = all_event.map(event => {
-		const isFull = (event.data.number_of_people >= 49);
-
-		const newEvent: EventResponse = {
-			...event?.data,
-			whatsappUrl: undefined,
-			isFull
-		};
-
-		return newEvent;
-	});
-
-	response.status(200).json(events_normalize).end();
 });
 
 const checkMissingParameters = (element_to_check: string[], request: functions.https.Request) => {
