@@ -28,6 +28,7 @@ enum TEMPLATE_IDS {
 
 interface ISendTransactionnalEmail {
 	template: TEMPLATE_IDS;
+	whatsapp_url?: string;
 	email: string;
 	first_name: string;
 }
@@ -59,7 +60,8 @@ const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
 		template_name: parameters.template,
 		template_content: [
 			{
-				first_name: parameters.first_name
+				first_name: parameters.first_name,
+				whatsapp_url: parameters.whatsapp_url
 			}
 		],
 		message: {

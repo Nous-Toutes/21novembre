@@ -5,6 +5,7 @@ import {all, set, update, get, field, value} from 'typesaurus';
 import {events, feminists, STATUS, leaders, Event} from '../utils/model';
 import {logger} from 'firebase-functions';
 import checkMissingParameters from '../utils/check-missing-params';
+import {sendTransactionalEmail, TEMPLATE_IDS} from '../utils/mailchimp';
 
 type EventResponse = Event & {isFull: boolean};
 
@@ -82,6 +83,26 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		number_of_people: value('increment', 1)
 	});
 
+	// SEND AN EMAIL to THE FEMINIST
+
+	if (event?.data.status === STATUS.VALIDATE) {
+		await sendTransactionalEmail({
+			email: request.body.email,
+			first_name: request.body.first_name,
+			whatsapp_url: event?.data?.whatsapp_url,
+			template: TEMPLATE_IDS.YOU_ARE_INVITED_TO_THE_EVENT
+		});
+	}
+
+	if (event?.data.status === STATUS.WAITING_FOR_LEADER) {
+		await sendTransactionalEmail({
+			email: request.body.email,
+			first_name: request.body.first_name,
+			whatsapp_url: event?.data?.whatsapp_url,
+			template: TEMPLATE_IDS.YOU_ARE_ON_WAITING_LIST
+		});
+	}
+
 	const isFull = (event.data.number_of_people >= 49);
 	const eventReponse: EventResponse = {...event.data, isFull, number_of_people: event.data.number_of_people + 1};
 
@@ -117,6 +138,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		return;
 	}
 
+	const feminist = feminists(event_id);
 	const leader = leaders(event_id);
 	const existing_leaders = await all(leader);
 
@@ -149,6 +171,26 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		status: STATUS.VALIDATE,
 		whatsapp_url: request.body.whatsapp_url
 	};
+
+	// SEND E_MAIL TO ORGANISATRICE
+	await sendTransactionalEmail({
+		email: request.body.email,
+		first_name: request.body.first_name,
+		whatsapp_url: request.body.whatsapp_url,
+		template: TEMPLATE_IDS.YOU_ARE_SUBSCRIBED_AS_LEADER
+	});
+
+	// Send e-mail to participante
+	const feminist_waiting_for_validation = await all(feminist);
+
+	await Promise.all(feminist_waiting_for_validation.map(async ({data}) => {
+		return sendTransactionalEmail({
+			email: data.email,
+			first_name: data.first_name,
+			whatsapp_url: request.body.whatsapp_url,
+			template: TEMPLATE_IDS.THE_EVENT_WAS_VALIDATE_TODAY
+		});
+	}));
 
 	response.status(200).json(eventReponse);
 });
