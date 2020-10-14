@@ -1,26 +1,19 @@
-/* eslint-disable import/no-mutable-exports */
-
 import * as functions from 'firebase-functions';
 
-// @ts-ignore incorrect typescript typings
-import * as Mailchimp from 'mailchimp-api-v3';
-import {MAILCHIMP_API_KEY, MANDRILL_API_KEY, SENDER_EMAIL, MAILCHIMP_AUDIENCE_ID} from './config';
+// @ts-ignore
+import * as Mailchimp from '@mailchimp/mailchimp_marketing';
 
 // @ts-ignore
 import * as mailchimpTransactionalModule from '@mailchimp/mailchimp_transactional';
 
-// @eslint-ignore
-let mailchimp: Mailchimp;
+import {MAILCHIMP_API_KEY, MANDRILL_API_KEY, SENDER_EMAIL, MAILCHIMP_AUDIENCE_ID} from './config';
 
-let mailchimpTransactional: any;
+const mailchimp = Mailchimp.setConfig({
+	apiKey: MAILCHIMP_API_KEY,
+	server: 'us18'
+});
 
-try {
-	// @ts-ignore
-	mailchimp = new Mailchimp(MAILCHIMP_API_KEY);
-	mailchimpTransactional = mailchimpTransactionalModule(MANDRILL_API_KEY);
-} catch (error: unknown) {
-	functions.logger.error(error);
-}
+const mailchimpTransactional = mailchimpTransactionalModule(MANDRILL_API_KEY);
 
 // “Vous êtes sur liste d’attente”
 // “Une orga s’est inscrite donc votre participation est validée”
