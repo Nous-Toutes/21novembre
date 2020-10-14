@@ -33,6 +33,7 @@ export type Feminist = {
 	event_id: string;
 	zipcode: string;
 	phone_number: string;
+	haveBeenAddToMailchimp: boolean;
 	optin: boolean;
 };
 
@@ -43,6 +44,7 @@ export type localLeader = {
 	zipcode: string;
 	phone_number: string;
 	whatsapp_url: string;
+	haveBeenAddToMailchimp: false;
 	optin: boolean;
 };
 

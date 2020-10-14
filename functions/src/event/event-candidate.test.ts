@@ -63,7 +63,6 @@ describe('candidateEvent', () => {
 		await api.candidatEvent(request, response);
 
 		expect(response.getStatus()).toBe(400);
-		console.log(response.getValue());
 
 		expect(response.getValue().includes('match any event')).toBeTruthy();
 	});
@@ -95,7 +94,6 @@ describe('candidateEvent', () => {
 		await api.candidatEvent(request, response);
 
 		expect(response.getStatus()).toBe(400);
-		console.log(response.getValue());
 
 		expect(
 			response.getValue().includes('There is already a leader for the event')
@@ -121,6 +119,16 @@ describe('candidateEvent', () => {
 			optin: true
 		};
 
+		const leadersRef = db
+			.collection('events')
+			.doc(body.event_id)
+			.collection('leaders');
+
+		const leaders = await leadersRef
+			.get();
+
+		await Promise.all(leaders?.docs.map(async u => leadersRef.doc(u.id).delete()));
+
 		const request = new Request(body, 'POST');
 		const response = new Response();
 
@@ -129,7 +137,6 @@ describe('candidateEvent', () => {
 
 		const status = response.getStatus();
 		const value = response.getValue();
-		console.log(response.getValue());
 
 		expect(status).toBe(200);
 

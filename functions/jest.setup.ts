@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as test from 'firebase-functions-test';
 import {set} from 'typesaurus';
 
-import {events, Category, STATUS} from './src/utils/model';
+import {events, Category, STATUS, feminists, leaders} from './src/utils/model';
 
 import * as admin from 'firebase-admin';
 
@@ -105,6 +105,29 @@ set(events, 'seed-event-waiting_leader', {
 	number_of_people: 0,
 	whatsapp_url: undefined,
 	status: STATUS.WAITING_FOR_LEADER
+});
+
+const feminist = feminists('seed-event-waiting_leader');
+set(feminist, 'alreadyAddToMailchimp', {
+	first_name: 'lucas',
+	event_id: 'seed-event',
+	email: 'lucas@noustoutes.io',
+	zipcode: '94700',
+	phone_number: '+XX',
+	haveBeenAddToMailchimp: false,
+	optin: true
+});
+
+const leader = leaders('seed-event-waiting_leader');
+set(leader, 'alreadyAddToMailchimp', {
+	first_name: 'lucas',
+	event_id: 'seed-event',
+	email: 'lucas@noustoutes.io',
+	zipcode: '94700',
+	phone_number: '+XX',
+	whatsapp_url: 'https://whatsapp.test',
+	haveBeenAddToMailchimp: false,
+	optin: true
 });
 
 export {testEnv, Request, Response};

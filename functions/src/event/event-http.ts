@@ -84,7 +84,8 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 		first_name: request.body.first_name,
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
-		optin: request.body.optin
+		optin: request.body.optin,
+		haveBeenAddToMailchimp: false
 	});
 
 	// Increment the value of number of people
@@ -142,7 +143,8 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
 		whatsapp_url: request.body.whatsapp_url,
-		optin: request.body.optin
+		optin: request.body.optin,
+		haveBeenAddToMailchimp: false
 	});
 
 	// Don't updateG the event to +1 for leader and whatsapp URL
