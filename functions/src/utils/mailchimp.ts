@@ -6,7 +6,7 @@ import * as Mailchimp from '@mailchimp/mailchimp_marketing';
 // @ts-ignore
 import * as mailchimpTransactionalModule from '@mailchimp/mailchimp_transactional';
 
-import {MAILCHIMP_API_KEY, MANDRILL_API_KEY, SENDER_EMAIL, MAILCHIMP_AUDIENCE_ID} from './config';
+import {MAILCHIMP_API_KEY, MANDRILL_API_KEY, MAILCHIMP_AUDIENCE_ID, SENDER_EMAIL} from './config';
 
 const mailchimp = Mailchimp.setConfig({
 	apiKey: MAILCHIMP_API_KEY,
@@ -76,7 +76,7 @@ const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
 		}
 	};
 
-	const result = await mailchimpTransactional.sendTemplate(message);
+	const result = await mailchimpTransactional.messages.sendTemplate(message);
 
 	functions.logger.info(result);
 
