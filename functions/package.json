@@ -4,12 +4,15 @@
     "lint": "xo \"src/**/*\"",
     "build": "tsc",
     "watch": "tsc -w",
+    "env:test": "firebase use nous-toutes-test",
+    "env:prod": "firebase use nous-toutes",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest  ./src"
+    "test": "jest  ./src",
+    "test:watch": "jest  ./src --watch"
   },
   "engines": {
     "node": "12"

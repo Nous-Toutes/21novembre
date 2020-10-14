@@ -30,7 +30,8 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 		});
 
 		response.status(200).json(events_normalize).end();
-	} catch (genericError) {
+	} catch (genericError: unknown) {
+		// @ts-ignore
 		logger.error(new Error(genericError));
 	}
 });

@@ -59,7 +59,6 @@ describe('Events', () => {
 		expect(status).toBe(200);
 
 		expect(value).toMatchInlineSnapshot(
-			'undefined',
 			`
       Array [
         Object {
