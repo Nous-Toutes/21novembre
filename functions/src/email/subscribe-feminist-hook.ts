@@ -33,8 +33,16 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 				return (`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 			}
 
-			// @ts-ignore
-			const results = await subscribeToMailchimp({email: data.email, first_name: data.first_name, event_id: data.event_id});
+			const new_data = {
+				email: data?.email,
+				first_name: data?.first_name,
+				event_id: data?.event_id,
+				last_name: data?.last_name,
+				phone_number: data?.phone_number,
+				zipcode: data?.zipcode
+			};
+
+			const results = await subscribeToMailchimp(new_data);
 
 			functions.logger.log(
 				data?.email,
@@ -87,7 +95,16 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 				return (`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 			}
 
-			const results = await subscribeToMailchimp(data?.email);
+			const new_data = {
+				email: data?.email,
+				first_name: data?.first_name,
+				event_id: data?.event_id,
+				last_name: data?.last_name,
+				phone_number: data?.phone_number,
+				zipcode: data?.zipcode
+			};
+
+			const results = await subscribeToMailchimp(new_data);
 
 			functions.logger.log(
 				data?.email,
