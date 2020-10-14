@@ -1,9 +1,8 @@
 import * as functions from 'firebase-functions';
 
-import {all, set, update, get, field} from 'typesaurus';
+import {all, set, update, get, field, value} from 'typesaurus';
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, leaders, Event} from '../utils/model';
-import {firestore} from '../utils/firestore';
 import {logger} from 'firebase-functions';
 
 type EventResponse = Event & {isFull: boolean};
@@ -91,13 +90,12 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 	});
 
 	// Increment the value of number of people
-	await update(events, event_id, [
-		// @ts-ignore
-		field('number_of_people', firestore.FieldValue.increment(1))
-	]);
+	await update(events, event_id, {
+		number_of_people: value('increment', 1)
+	});
 
 	const isFull = (event.data.number_of_people >= 49);
-	const eventReponse: EventResponse = {...event.data, isFull};
+	const eventReponse: EventResponse = {...event.data, isFull, number_of_people: event.data.number_of_people + 1};
 
 	response.status(200).json(eventReponse);
 });
