@@ -19,7 +19,7 @@ export type Event = {
 	location: firestore.GeoPoint;
 	category: Category;
 	number_of_people: number;
-	whatsappUrl: string | undefined;
+	whatsapp_url: string | undefined;
 	status: STATUS;
 };
 
@@ -42,7 +42,7 @@ export type localLeader = {
 	event_id: string;
 	zipcode: string;
 	phone_number: string;
-	whatsappUrl: string;
+	whatsapp_url: string;
 	optin: boolean;
 };
 

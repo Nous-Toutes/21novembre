@@ -21,7 +21,7 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 
 			const newEvent: EventResponse = {
 				...event?.data,
-				whatsappUrl: undefined,
+				whatsapp_url: undefined,
 				isFull
 			};
 
@@ -100,7 +100,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 
 export const candidatEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	if (request.method !== 'POST') {
-		response.status(404).send(`request /joinEvent with method ${request.method} dosn't exist`);
+		response.status(404).send(`request /candidateEvent with method ${request.method} dosn't exist`);
 		return;
 	}
 
@@ -109,7 +109,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 
 	if (errors?.length) {
 		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
-		logger.error(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+		logger.debug(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
 	}
 
@@ -141,16 +141,24 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 		first_name: request.body.first_name,
 		zipcode: request.body.zipcode,
 		phone_number: request.body.phone_number,
-		whatsappUrl: request.body.whatsappUrl,
+		whatsapp_url: request.body.whatsapp_url,
 		optin: request.body.optin
 	});
 
 	// Don't updateG the event to +1 for leader and whatsapp URL
 	await update(events, event_id, [
-		field('whatsappUrl', request.body.whatsappUrl),
+		field('whatsapp_url', request.body.whatsapp_url),
 		field('status',	STATUS.VALIDATE)
 	]);
 
-	response.status(200).send('ok!');
+	const isFull = (event.data.number_of_people >= 49);
+
+	const eventReponse: EventResponse = {
+		...event.data, isFull,
+		status: STATUS.VALIDATE,
+		whatsapp_url: request.body.whatsapp_url
+	};
+
+	response.status(200).json(eventReponse);
 });
 

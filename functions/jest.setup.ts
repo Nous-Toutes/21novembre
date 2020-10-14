@@ -94,7 +94,7 @@ set(events, 'seed-event', {
 	category: Category.JUSTICE,
 	location: new admin.firestore.GeoPoint(48.8534, 2.3488),
 	number_of_people: 0,
-	whatsappUrl: undefined,
+	whatsapp_url: undefined,
 	status: STATUS.VALIDATE
 });
 
@@ -103,7 +103,7 @@ set(events, 'seed-event-waiting_leader', {
 	category: Category.JUSTICE,
 	location: new admin.firestore.GeoPoint(48.8534, 2.3488),
 	number_of_people: 0,
-	whatsappUrl: undefined,
+	whatsapp_url: undefined,
 	status: STATUS.WAITING_FOR_LEADER
 });
 

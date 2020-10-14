@@ -12,7 +12,7 @@ export const seedEvent = functions.https.onRequest(async (request, response) => 
 		category: Category.JUSTICE,
 		location: new admin.firestore.GeoPoint(48.8534, 2.3488),
 		number_of_people: 0,
-		whatsappUrl: undefined,
+		whatsapp_url: undefined,
 		status: STATUS.VALIDATE
 	});
 
@@ -21,7 +21,7 @@ export const seedEvent = functions.https.onRequest(async (request, response) => 
 		category: Category.JUSTICE,
 		location: new admin.firestore.GeoPoint(48.8534, 2.3488),
 		number_of_people: 0,
-		whatsappUrl: undefined,
+		whatsapp_url: undefined,
 		status: STATUS.WAITING_FOR_LEADER
 	});
 
