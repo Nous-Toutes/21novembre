@@ -39,9 +39,8 @@ const checkMissingParameters = (element_to_check: string[], request: functions.h
 	const errors: string[] = [];
 
 	for (const element of element_to_check) {
-		if (request?.body?.[element] || request?.body?.[element] === '') {
+		if (!request?.body?.[element] || request?.body?.[element] === '') {
 			errors.push(element);
-			return;
 		}
 	}
 
@@ -57,9 +56,8 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 
 	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'optin'];
 	const errors = checkMissingParameters(element_to_check, request);
-
 	if (errors?.length) {
-		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST request`);
+		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
 	}
 
@@ -110,7 +108,8 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 	const errors = checkMissingParameters(element_to_check, request);
 
 	if (errors?.length) {
-		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST request`);
+		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+		logger.error(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
 	}
 

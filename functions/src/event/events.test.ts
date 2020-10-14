@@ -9,7 +9,7 @@ describe('Events', () => {
 		// @ts-ignore
 		await api.events(request, response);
 
-		expect(response.getValue().includes('request /events with method'));
+		expect(response.getValue().includes('request /events with method')).toBeTruthy();
 	});
 
 	test('should find all event', async done => {
