@@ -4,6 +4,7 @@ import {all, set, update, get, field, value} from 'typesaurus';
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, leaders, Event} from '../utils/model';
 import {logger} from 'firebase-functions';
+import checkMissingParameters from '../utils/check-missing-params';
 
 type EventResponse = Event & {isFull: boolean};
 
@@ -35,18 +36,6 @@ export const eventsFunction = functions.region('europe-west3').https.onRequest(a
 	}
 });
 
-const checkMissingParameters = (element_to_check: string[], request: functions.https.Request) => {
-	const errors: string[] = [];
-
-	for (const element of element_to_check) {
-		if (!request?.body?.[element] || request?.body?.[element] === '') {
-			errors.push(element);
-		}
-	}
-
-	return errors;
-};
-
 // GET EVENT
 export const joinEvent = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	if (request.method !== 'POST') {
@@ -55,7 +44,7 @@ export const joinEvent = functions.region('europe-west3').https.onRequest(async 
 	}
 
 	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'optin'];
-	const errors = checkMissingParameters(element_to_check, request);
+	const errors = checkMissingParameters(element_to_check, request.body);
 	if (errors?.length) {
 		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
@@ -106,7 +95,7 @@ export const candidatEvent = functions.region('europe-west3').https.onRequest(as
 	}
 
 	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url', 'optin'];
-	const errors = checkMissingParameters(element_to_check, request);
+	const errors = checkMissingParameters(element_to_check, request.body);
 
 	if (errors?.length) {
 		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);

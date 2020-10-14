@@ -27,7 +27,7 @@ describe('candidateEvent', () => {
 			email: 'lucas@noustoutes.io',
 			zipcode: '94700',
 			phone_number: '+XX',
-			optin: true
+			optin: false
 		};
 
 		const response = new Response();
@@ -52,7 +52,7 @@ describe('candidateEvent', () => {
 			zipcode: '94700',
 			whatsapp_url: 'helloWhatsapp',
 			phone_number: '+XX',
-			optin: true
+			optin: false
 		};
 
 		const response = new Response();
@@ -75,7 +75,7 @@ describe('candidateEvent', () => {
 			zipcode: '94700',
 			phone_number: '+XX',
 			whatsapp_url: 'helloWhatsapp',
-			optin: true
+			optin: false
 		};
 
 		// CREATE ALREADY A LEADER

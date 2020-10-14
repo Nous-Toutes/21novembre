@@ -32,14 +32,24 @@ interface ISendTransactionnalEmail {
 	first_name: string;
 }
 
-const subscribeToMailchimp = async (email: string) => {
-	return mailchimp.post(
-		`/lists/${MAILCHIMP_AUDIENCE_ID}/members`,
-		{
-			email_address: email,
-			status: 'subscribed'
-		}
-	);
+interface IMailchimpData {
+	email: string;
+	first_name: string;
+	event_id: string;
+	zipcode: string;
+	phone_number: string;
+}
+
+const subscribeToMailchimp = async ({email, first_name, event_id, zipcode, phone_number}: IMailchimpData) => {
+	return mailchimp.lists.addListMember(MAILCHIMP_AUDIENCE_ID, {
+		email_address: email,
+		status: 'subscribed',
+		merge_fields: {
+			DEPARTEMENT: zipcode,
+			Prénom: first_name,
+			TELEPHONE: phone_number,
+			'23_NOVEMBRE_EVENT_ID': event_id
+		}});
 };
 
 const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {

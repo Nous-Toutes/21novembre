@@ -1,6 +1,7 @@
 
 import * as functions from 'firebase-functions';
 import {mailchimp, subscribeToMailchimp} from '../utils/mailchimp';
+import checkMissingParameters from '../utils/check-missing-params';
 
 // SUBSCRIBE_TO_NEWSLETTER
 export const subscribed_to_newsletter = functions.region('europe-west3').firestore
@@ -19,17 +20,21 @@ export const subscribed_to_newsletter = functions.region('europe-west3').firesto
 				return ('already added to mailchimp');
 			}
 
-			if (!data?.email) {
-				functions.logger.info('no user email');
-				return ('no user email');
-			}
-
 			if (!data?.optin) {
 				functions.logger.info('The feminist doesnt want to opt-in');
 				return ('The feminist doesnt want to opt-in');
 			}
 
-			const results = await subscribeToMailchimp(data?.email);
+			const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'optin'];
+			const errors = checkMissingParameters(element_to_check, data);
+
+			if (errors?.length) {
+				functions.logger.debug(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+				return (`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+			}
+
+			// @ts-ignore
+			const results = await subscribeToMailchimp({email: data.email, first_name: data.first_name, event_id: data.event_id});
 
 			functions.logger.log(
 				data?.email,
@@ -69,14 +74,17 @@ export const subscribed_leader_to_newsletter = functions.region('europe-west3').
 				return ('already added to mailchimp');
 			}
 
-			if (!data?.email) {
-				functions.logger.info('no user email');
-				return ('no user email');
-			}
-
 			if (!data?.optin) {
 				functions.logger.info('The feminist doesnt want to opt-in');
 				return ('The feminist doesnt want to opt-in');
+			}
+
+			const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'optin'];
+			const errors = checkMissingParameters(element_to_check, data);
+
+			if (errors?.length) {
+				functions.logger.debug(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+				return (`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 			}
 
 			const results = await subscribeToMailchimp(data?.email);

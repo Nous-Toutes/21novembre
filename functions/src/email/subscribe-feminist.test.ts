@@ -44,7 +44,7 @@ describe('Subscribe to mailchimp', () => {
 		const snap = testEnv.firestore.makeDocumentSnapshot(body, 'events/{eventId}/feminists/{feministId}');
 		const result = await wraped(snap);
 
-		expect(result.includes('no user email')).toBeTruthy();
+		expect(result.includes('is missing from the POST Body')).toBeTruthy();
 		expect(mocked(mailchimp.subscribeToMailchimp).mock.calls).toHaveLength(0);
 		done();
 	});
