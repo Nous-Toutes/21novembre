@@ -31,6 +31,7 @@ interface ISendTransactionnalEmail {
 	whatsapp_url?: string;
 	email: string;
 	first_name: string;
+	address?: string;
 }
 
 interface IMailchimpData {
@@ -61,7 +62,8 @@ const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
 		template_content: [
 			{
 				first_name: parameters.first_name,
-				whatsapp_url: parameters.whatsapp_url
+				whatsapp_url: parameters.whatsapp_url,
+				address: parameters.address ?? ''
 			}
 		],
 		message: {
