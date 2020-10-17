@@ -23,6 +23,10 @@ export type Event = {
 	number_of_people: number;
 	whatsapp_url: string | undefined;
 	status: STATUS;
+	address: string;
+	voie: string;
+	zipcode: string;
+	city: string;
 };
 
 export type Counteur = {
