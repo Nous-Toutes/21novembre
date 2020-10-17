@@ -19,6 +19,11 @@ const candidatEvent = async (
 		return;
 	}
 
+	if (request.body?.warm === true) {
+		response.status(200).send('function warmed');
+		return;
+	}
+
 	const element_to_check = ['first_name', 'email', 'event_id', 'zipcode', 'phone_number', 'whatsapp_url', 'optin'];
 	const errors = checkMissingParameters(element_to_check, request.body);
 
