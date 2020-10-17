@@ -1,6 +1,6 @@
 import {eventsFunction, joinEvent, candidatEvent} from './event/event-http';
-import {seedEvent} from './utils/seed';
+// Import {seedEvent} from './utils/seed';
 import {subscribed_to_newsletter, subscribed_leader_to_newsletter} from './email/subscribe-feminist-hook';
 const events = eventsFunction;
 
-export {events, seedEvent, joinEvent, subscribed_to_newsletter, candidatEvent, subscribed_leader_to_newsletter};
+export {events, joinEvent, subscribed_to_newsletter, candidatEvent, subscribed_leader_to_newsletter};

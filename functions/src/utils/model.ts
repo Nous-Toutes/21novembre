@@ -9,6 +9,8 @@ export enum Category {
 	JUSTICE = 'JUSTICE'
 }
 
+export type EventResponse = Event & {isFull: boolean};
+
 export enum STATUS {
 	WAITING_FOR_LEADER = 'WAITING_FOR_LEADER',
 	VALIDATE = 'VALIDATE'
