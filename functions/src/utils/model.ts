@@ -24,7 +24,7 @@ export type Event = {
 	whatsapp_url: string | undefined;
 	status: STATUS;
 	address: string;
-	id: string,
+	id: string;
 	voie: string;
 	zipcode: string;
 	city: string;
