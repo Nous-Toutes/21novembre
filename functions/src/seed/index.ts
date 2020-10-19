@@ -27,8 +27,6 @@ const importFile = () => {
     const file = readFileSync('secret.csv', 'utf8');
     const result = parse(file, {header: true});
 
-    console.log(result.data)
-
     if(result.data){
         // @ts-ignore
         result.data.forEach(async (event: IrawEvent, index) => {
