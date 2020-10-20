@@ -36,7 +36,6 @@ const subscribeNewsletter = async (
 			email: data?.email,
 			first_name: data?.first_name,
 			event_id: data?.event_id,
-			last_name: data?.last_name,
 			phone_number: data?.phone_number,
 			zipcode: data?.zipcode
 		};
