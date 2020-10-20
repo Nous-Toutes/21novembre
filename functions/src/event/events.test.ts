@@ -4,7 +4,7 @@ import {Response, Request} from '../../jest.setup';
 describe('Events', () => {
 	test('should only be call on GET event', async () => {
 		const response = new Response();
-		const request = new Request({}, 'POST');
+		const request = new Request({}, 'GET');
 
 		// @ts-ignore
 		await api.events(request, response);
@@ -13,7 +13,10 @@ describe('Events', () => {
 	});
 
 	test('should find all event', async done => {
-		const request = new Request({}, 'GET');
+		const body = {
+			department: '75'
+		};
+		const request = new Request(body, 'POST');
 		const response = new Response();
 
 		// @ts-ignore

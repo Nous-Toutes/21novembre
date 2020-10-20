@@ -11,7 +11,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest  ./src/seed --runInBand",
+    "test": "jest  ./src --runInBand",
     "test:watch": "jest  ./src --watch --runInBand"
   },
   "engines": {

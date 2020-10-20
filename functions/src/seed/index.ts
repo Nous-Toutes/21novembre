@@ -8,7 +8,7 @@ import * as slug from 'limax';
 import {events, Category, STATUS} from '../utils/model';
 
 interface IrawEvent {
-	departement: string;
+	department: string;
 	service: string;
 	adresse_geographique: string;
 	voie: string;
@@ -47,7 +47,7 @@ const importFile = () => {
 				};
 
 				const new_event = {
-					departement: event?.departement,
+					department: event?.department,
 					name,
 					category: findCategory(),
 					location: new admin.firestore.GeoPoint(Number(event?.Latitude), Number(event?.Longitude)),
