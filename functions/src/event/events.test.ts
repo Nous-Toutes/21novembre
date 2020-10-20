@@ -30,7 +30,6 @@ describe('Events', () => {
 		const isArray = Array.isArray(value);
 
 		expect(isArray).toBeTruthy();
-
 		done();
 	});
 });
