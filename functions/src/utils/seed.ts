@@ -1,7 +1,7 @@
 
 import * as functions from 'firebase-functions';
 import seeding from '../seed';
-// import {set} from 'typesaurus';
+// Import {set} from 'typesaurus';
 
 // import {events, Category, STATUS, feminists, leaders} from './model';
 // import * as admin from 'firebase-admin';
@@ -9,7 +9,7 @@ import seeding from '../seed';
 export const seedEvent = functions.https.onRequest(async (_request, response) => {
 	seeding();
 
-	// set(events, 'seed-event', {
+	// Set(events, 'seed-event', {
 	// 	name: 'Commissariat de police d\'Oyonnax',
 	// 	category: Category.JUSTICE,
 	// 	location: new admin.firestore.GeoPoint(48.8534, 2.3488),
