@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin';
 // @ts-ignore
 import * as slug from 'limax';
 
-import {events, Category, STATUS} from '../utils/model';
+import {events, Category, STATUS, leaders} from '../utils/model';
 
 interface IrawEvent {
 	departement: string;
@@ -62,6 +62,21 @@ const importFile = () => {
 				};
 
 				await set(events, id, new_event);
+				
+				if(status == STATUS.VALIDATE){
+				const leader= leaders(id);
+
+				await set(leader, event?.["Référent.e (mail)"]?.trim(), {
+					first_name: event?.["Référent.e (prénom)"] ?? "",
+					event_id: id,
+					email:  event?.["Référent.e (mail)"]?.trim() ?? "",
+					zipcode: "",
+					phone_number: '',
+					whatsapp_url: event?.['Groupe WhatsApp de l\'action (UNIQUEMENT LE LIEN)'] ?? '',
+					haveBeenAddToMailchimp: false,
+					optin: true
+				});
+				}
 			} catch (error: unknown) {
 				console.log(error);
 			}
