@@ -1,4 +1,4 @@
-import {query, where} from 'typesaurus';
+import {query, where, limit} from 'typesaurus';
 
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, EventResponse} from '../utils/model';
@@ -11,6 +11,24 @@ const getEvents = async (
 	response: functions.Response
 ) => {
 	try {
+		if (request.method === 'GET') {
+			const all_event = await query(events, [limit(200)]);
+
+			const events_normalize: EventResponse[] = all_event.map(event => {
+				const isFull = (event.data.number_of_people >= 49);
+
+				const newEvent: EventResponse = {
+					...event?.data,
+					whatsapp_url: undefined,
+					isFull
+				};
+
+				return newEvent;
+			});
+			response.status(200).json(events_normalize).end();
+			return;
+		}
+
 		if (request.method !== 'POST') {
 			response.status(404).send(`request /events with method ${request.method} dosn't exist`);
 			return;
