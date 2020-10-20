@@ -146,6 +146,8 @@ describe('candidateEvent', () => {
         "address": "57 Rue Pasteur 01100 OYONNAX",
         "category": "JUSTICE",
         "city": "OYONNAX",
+        "department": "01",
+        "id": "seed-event",
         "isFull": false,
         "location": Object {
           "_latitude": 48.8534,

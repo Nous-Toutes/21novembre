@@ -12,7 +12,7 @@ const getEvents = async (
 ) => {
 	try {
 		if (request.method === 'GET') {
-			const all_event = await query(events, [limit(200)]);
+			const all_event = await query(events, [limit(100)]);
 
 			const events_normalize: EventResponse[] = all_event.map(event => {
 				const isFull = (event.data.number_of_people >= 49);

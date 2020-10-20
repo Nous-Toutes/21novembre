@@ -99,7 +99,10 @@ set(events, 'seed-event', {
 	address: '57 Rue Pasteur 01100 OYONNAX',
 	city: 'OYONNAX',
 	zipcode: '01',
-	voie: '57 Rue Pasteur'
+	voie: '57 Rue Pasteur',
+	department: '01',
+	id: 'seed-event'
+
 });
 
 set(events, 'seed-event-waiting_leader', {
@@ -112,10 +115,13 @@ set(events, 'seed-event-waiting_leader', {
 	address: '4 Rue des Remparts 01000 BOURG EN BRESSE',
 	city: 'BOURG EN BRESSE',
 	zipcode: '01',
-	voie: '4 Rue des Remparts'
+	voie: '4 Rue des Remparts',
+	department: '01',
+	id: 'seed-event-waiting_leader'
 });
 
 const feminist = feminists('seed-event-waiting_leader');
+
 set(feminist, 'alreadyAddToMailchimp', {
 	first_name: 'lucas',
 	event_id: 'seed-event',
