@@ -1,9 +1,7 @@
 import * as path from 'path';
 import * as test from 'firebase-functions-test';
 import {set} from 'typesaurus';
-
 import {events, Category, STATUS, feminists, leaders} from './src/utils/model';
-
 import * as admin from 'firebase-admin';
 
 jest.setTimeout(50000);
@@ -49,10 +47,15 @@ class Request {
 class Response {
 	statusValue: number;
 	value: any;
-
+	origin: any;
+	
 	constructor() {
 		this.value = {};
 		this.statusValue = 999;
+	}
+
+	set(field: string, value?: string){
+		this.origin[field] = value
 	}
 
 	status(newStatus: number) {
