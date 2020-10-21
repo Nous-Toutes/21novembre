@@ -51,6 +51,7 @@ class Response {
 	
 	constructor() {
 		this.value = {};
+		this.origin = {};
 		this.statusValue = 999;
 	}
 
