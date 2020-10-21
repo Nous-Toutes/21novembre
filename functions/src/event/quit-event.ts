@@ -40,6 +40,17 @@ const quitEvent = async (
 	const feminist = feminists(event_id);
 
 	// Check exist before so we don't increment if it's exist
+	const existing_user = await get(feminist, request.body.email);
+
+	if (!existing_user?.data?.email) {
+		const isFull = (event.data.number_of_people >= 49);
+		const eventReponse: EventResponse = {...event.data, isFull};
+
+		response.status(200).json(eventReponse);
+		return;
+	}
+
+	// Check exist before so we don't increment if it's exist
 	await remove(feminist, request.body.email);
 
 	// Increment the value of number of people

@@ -47,6 +47,16 @@ const joinEvent = async (
 		const feminist = feminists(event_id);
 
 		// Check exist before so we don't increment if it's exist
+		const existing_user = await get(feminist, request.body.email);
+
+		if (existing_user?.data?.email) {
+			const isFull = (event.data.number_of_people >= 49);
+			const eventReponse: EventResponse = {...event.data, isFull};
+
+			response.status(200).json(eventReponse);
+			return;
+		}
+
 		await set(feminist, request.body.email, {
 			email: request.body.email,
 			event_id: request.body.event_id,

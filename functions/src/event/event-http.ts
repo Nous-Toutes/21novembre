@@ -2,6 +2,13 @@ import * as functions from 'firebase-functions';
 
 export const eventsFunction = functions.region('europe-west3').https.onRequest(async (request, response) => {
 	response.set('Access-Control-Allow-Origin', '*');
+	response.set('Access-Control-Allow-Origin', '*');
+	response.header('Access-Control-Allow-Origin', '*');
+	response.set('Access-Control-Allow-Origin', '*');
+	response.set('Access-Control-Allow-Methods', 'POST, GET');
+	response.set('Access-Control-Allow-Headers', 'Content-Type');
+	response.set('Access-Control-Max-Age', '3600');
+
 	/* eslint-disable-next-line node/no-unsupported-features/es-syntax */
 	return (await import('./events')).default(request, response);
 });
