@@ -81,6 +81,7 @@ const candidatEvent = async (
 	// SEND E_MAIL TO ORGANISATRICE
 	await sendTransactionalEmail({
 		email: request.body.email,
+		address: event?.data?.name,
 		first_name: request.body.first_name,
 		whatsapp_url: request.body.whatsapp_url,
 		template: TEMPLATE_IDS.YOU_ARE_SUBSCRIBED_AS_LEADER
@@ -94,6 +95,7 @@ const candidatEvent = async (
 			email: data.email,
 			first_name: data.first_name,
 			whatsapp_url: request.body.whatsapp_url,
+			address: event?.data?.name,
 			template: TEMPLATE_IDS.THE_EVENT_WAS_VALIDATE_TODAY
 		});
 	}));

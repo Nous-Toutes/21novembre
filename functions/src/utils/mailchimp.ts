@@ -31,7 +31,7 @@ interface ISendTransactionnalEmail {
 	whatsapp_url?: string;
 	email: string;
 	first_name: string;
-	address?: string;
+	address: string;
 }
 
 interface IMailchimpData {
@@ -59,13 +59,7 @@ const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
 	// No key neded i guess with the mailchimpTransactionnal module
 	const message = {
 		template_name: parameters.template,
-		template_content: [
-			{
-				first_name: parameters.first_name,
-				whatsapp_url: parameters.whatsapp_url,
-				address: parameters.address ?? ''
-			}
-		],
+		template_content: [],
 		message: {
 			from_email: SENDER_EMAIL,
 			to: [
@@ -74,7 +68,27 @@ const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
 					name: parameters.first_name,
 					type: 'to'
 				}
+			],
+			merge_vars: [
+				{
+					rcpt: parameters.email,
+					vars: [
+						{
+							name: 'first_name',
+							content: parameters.first_name
+						},
+						{
+							name: 'whatsapp_url',
+							content: parameters?.whatsapp_url ?? ''
+						},
+						{
+							name: 'address',
+							content: parameters.address ?? ''
+						}
+					]
+				}
 			]
+
 		}
 	};
 

@@ -79,6 +79,7 @@ const joinEvent = async (
 				email: request.body.email,
 				first_name: request.body.first_name,
 				whatsapp_url: event?.data?.whatsapp_url,
+				address: event?.data?.name,
 				template: TEMPLATE_IDS.YOU_ARE_INVITED_TO_THE_EVENT
 			});
 		}
@@ -88,6 +89,7 @@ const joinEvent = async (
 				email: request.body.email,
 				first_name: request.body.first_name,
 				whatsapp_url: event?.data?.whatsapp_url,
+				address: event?.data?.name,
 				template: TEMPLATE_IDS.YOU_ARE_ON_WAITING_LIST
 			});
 		}
