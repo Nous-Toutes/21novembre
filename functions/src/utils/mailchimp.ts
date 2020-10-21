@@ -45,15 +45,21 @@ interface IMailchimpData {
 }
 
 const subscribeToMailchimp = async ({email, first_name, event_id, zipcode, phone_number}: IMailchimpData) => {
+	const departement = zipcode?.slice(0, 2);
+
+	const merge_fields = {
+		MMERGE4: departement,
+		MMERGE11: zipcode,
+		MMERGE15: first_name,
+		MMERGE10: phone_number,
+		MMERGE13: event_id
+	};
+
 	return mailchimp.lists.addListMember(MAILCHIMP_AUDIENCE_ID, {
 		email_address: email,
 		status: 'subscribed',
-		merge_fields: {
-			DEPARTEMENT: zipcode,
-			Prénom: first_name,
-			TELEPHONE: phone_number,
-			'23_NOVEMBRE_EVENT_ID': event_id
-		}});
+		merge_fields
+	});
 };
 
 const sendTransactionalEmail = async (parameters: ISendTransactionnalEmail) => {
