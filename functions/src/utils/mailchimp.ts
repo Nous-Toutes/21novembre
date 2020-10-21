@@ -8,10 +8,12 @@ import * as mailchimpTransactionalModule from '@mailchimp/mailchimp_transactiona
 
 import {MAILCHIMP_API_KEY, MANDRILL_API_KEY, MAILCHIMP_AUDIENCE_ID, SENDER_EMAIL} from './config';
 
-const mailchimp = Mailchimp.setConfig({
+Mailchimp.setConfig({
 	apiKey: MAILCHIMP_API_KEY,
 	server: 'us18'
 });
+
+const mailchimp = Mailchimp;
 
 const mailchimpTransactional = mailchimpTransactionalModule(MANDRILL_API_KEY);
 
