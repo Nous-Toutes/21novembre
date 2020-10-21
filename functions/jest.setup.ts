@@ -48,15 +48,15 @@ class Response {
 	statusValue: number;
 	value: any;
 	origin: any;
-	
+
 	constructor() {
 		this.value = {};
 		this.origin = {};
 		this.statusValue = 999;
 	}
 
-	set(field: string, value?: string){
-		this.origin[field] = value
+	set(field: string, value?: string) {
+		this.origin[field] = value;
 	}
 
 	status(newStatus: number) {
