@@ -30,14 +30,14 @@
     "typesaurus": "^6.2.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.4.0",
-    "eslint-config-xo": "^0.32.1",
-    "eslint-config-xo-typescript": "^0.33.0",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint-config-xo": "^0.33.1",
+    "eslint-config-xo-typescript": "^0.35.0",
     "firebase-functions-test": "^0.2.2",
     "typescript": "^4.0.3",
-    "xo": "^0.33.1",
-    "jest": "^26.5.2",
+    "xo": "^0.34.1",
+    "jest": "^26.6.0",
     "ts-jest": "^26.4.1"
   },
   "xo": {
