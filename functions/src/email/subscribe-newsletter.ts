@@ -43,9 +43,9 @@ const subscribeNewsletter = async (
 		const results = await subscribeToMailchimp(new_data);
 
 		functions.logger.log(
-				data?.email,
-				results,
-				'subscribed'
+			data?.email,
+			results,
+			'subscribed'
 		);
 
 		await snapshot.ref.update({

@@ -1,6 +1,5 @@
 import {query, where, limit} from 'typesaurus';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, EventResponse} from '../utils/model';
 
 import * as functions from 'firebase-functions';

@@ -1,9 +1,7 @@
 import {set, update, get, value} from 'typesaurus';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import * as functions from 'firebase-functions';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, EventResponse} from '../utils/model';
 import checkMissingParameters from '../utils/check-missing-params';
 import {sendTransactionalEmail, TEMPLATE_IDS} from '../utils/mailchimp';

@@ -127,7 +127,7 @@ describe('candidateEvent', () => {
 		const leaders = await leadersRef.get();
 
 		await Promise.all(
-      leaders?.docs.map(async u => leadersRef.doc(u.id).delete())
+			leaders?.docs.map(async u => leadersRef.doc(u.id).delete())
 		);
 
 		const request = new Request(body, 'POST');

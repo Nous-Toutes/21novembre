@@ -1,9 +1,7 @@
 import {update, get, value, remove} from 'typesaurus';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import * as functions from 'firebase-functions';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, EventResponse} from '../utils/model';
 import checkMissingParameters from '../utils/check-missing-params';
 
@@ -21,10 +19,10 @@ const quitEvent = async (
 		return;
 	}
 
-	const element_to_check = ['email', "event_id"];
-	
-    const errors = checkMissingParameters(element_to_check, request.body);
-    
+	const element_to_check = ['email', 'event_id'];
+
+	const errors = checkMissingParameters(element_to_check, request.body);
+
 	if (errors?.length) {
 		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
@@ -37,8 +35,8 @@ const quitEvent = async (
 	if (!event?.data) {
 		response.status(400).send(`the event id: ${event_id} doesn't match any event`);
 		return;
-    }
-    
+	}
+
 	const feminist = feminists(event_id);
 
 	// Check exist before so we don't increment if it's exist
@@ -46,9 +44,8 @@ const quitEvent = async (
 
 	// Increment the value of number of people
 	await update(events, event_id, {
-		number_of_people: value("increment", -1)
+		number_of_people: value('increment', -1)
 	});
-
 
 	const isFull = (event.data.number_of_people >= 49);
 	const eventReponse: EventResponse = {...event.data, isFull, number_of_people: event.data.number_of_people + 1};

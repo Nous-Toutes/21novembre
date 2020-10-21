@@ -1,12 +1,9 @@
 
 import {all, set, update, get, field} from 'typesaurus';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import * as functions from 'firebase-functions';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 import {events, feminists, STATUS, leaders, EventResponse} from '../utils/model';
-import {logger} from 'firebase-functions';
 import checkMissingParameters from '../utils/check-missing-params';
 import {sendTransactionalEmail, TEMPLATE_IDS} from '../utils/mailchimp';
 
@@ -29,7 +26,7 @@ const candidatEvent = async (
 
 	if (errors?.length) {
 		response.status(400).send(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
-		logger.debug(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
+		functions.logger.debug(`in the body of the request, ${errors.join(',')} is missing from the POST Body`);
 		return;
 	}
 
