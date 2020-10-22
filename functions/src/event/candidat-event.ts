@@ -39,7 +39,7 @@ const candidatEvent = async (
 		return;
 	}
 
-	if (event?.data?.status !== STATUS.VALIDATE) {
+	if (event?.data?.status === STATUS.VALIDATE) {
 		response.status(400).send(`the event source, ${event_id} is already validate`);
 		return;
 	}
