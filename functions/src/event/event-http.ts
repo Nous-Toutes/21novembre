@@ -53,7 +53,14 @@ export const candidatEvent = functions.runWith({memory: '1GB'}).region('europe-w
 	return (await import('./candidat-event')).default(request, response);
 });
 
-export const Stats = functions.runWith({memory: '1GB'}).region('europe-west3').https.onRequest(async (request, response) => {
+export const Stats = functions.runWith({memory: '1GB'}).region('europe-west3').https.onRequest(async (_request, response) => {
+	response.set('Access-Control-Allow-Origin', '*');
+	response.header('Access-Control-Allow-Origin', '*');
+	response.set('Access-Control-Allow-Origin', '*');
+	response.set('Access-Control-Allow-Methods', 'POST');
+	response.set('Access-Control-Allow-Headers', 'Content-Type');
+	response.set('Access-Control-Max-Age', '3600');
+
 	const all_events = await all(events);
 	const validateEvent = await query(events, [where('status', '==', STATUS.VALIDATE)]);
 
@@ -67,5 +74,6 @@ export const Stats = functions.runWith({memory: '1GB'}).region('europe-west3').h
 			sum += Number(a.data.number_of_people);
 		}
 	});
-	return response.json({personne_inscrite: sum, evenement_valide: validateEventLength});
+
+	response.json({personne_inscrite: sum, evenement_valide: validateEventLength});
 });
