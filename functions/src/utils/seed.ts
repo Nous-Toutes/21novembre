@@ -1,12 +1,12 @@
 
 import * as functions from 'firebase-functions';
-// Import seeding from '../seed';
+import seeding from '../seed';
 // Import {set} from 'typesaurus';
 // import {events, Category, STATUS, feminists, leaders} from './model';
 // import * as admin from 'firebase-admin';
 
 export const seedEvent = functions.https.onRequest(async (_request, response) => {
-	// Seeding();
+	seeding();
 
 	// Set(events, 'seed-event', {
 	// 	name: 'Commissariat de police d\'Oyonnax',
