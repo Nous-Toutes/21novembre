@@ -48,7 +48,13 @@ const getEvents = async (
 			return;
 		}
 
-		const all_event = await query(events, [where('department', '==', request.body?.department)]);
+		let newDepartment = request.body?.department;
+
+		if (newDepartment.startsWith('0')) {
+			newDepartment = newDepartment.slice(1);
+		}
+
+		const all_event = await query(events, [where('department', '==', newDepartment)]);
 
 		const events_normalize: EventResponse[] = all_event.map(event => {
 			const isFull = (event.data.number_of_people >= 49);
