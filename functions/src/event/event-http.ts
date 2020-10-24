@@ -65,6 +65,7 @@ export const Stats = functions.runWith({memory: '1GB'}).region('europe-west3').h
 	const validateEvent = await query(events, [where('status', '==', STATUS.VALIDATE)]);
 
 	const validateEventLength = validateEvent.length;
+
 	// Calcul the sum
 	let sum = 0;
 
@@ -74,6 +75,8 @@ export const Stats = functions.runWith({memory: '1GB'}).region('europe-west3').h
 			sum += Number(a.data.number_of_people);
 		}
 	});
+
+	sum += validateEventLength;
 
 	response.json({personne_inscrite: sum, evenement_valide: validateEventLength});
 });

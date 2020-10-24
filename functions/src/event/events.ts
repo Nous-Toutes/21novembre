@@ -1,6 +1,6 @@
 import {query, where, limit} from 'typesaurus';
 
-import {events, EventResponse} from '../utils/model';
+import {events, EventResponse, STATUS} from '../utils/model';
 
 import * as functions from 'firebase-functions';
 import checkMissingParameters from '../utils/check-missing-params';
@@ -59,9 +59,16 @@ const getEvents = async (
 		const events_normalize: EventResponse[] = all_event.map(event => {
 			const isFull = (event.data.number_of_people >= 49);
 
+			let {number_of_people} = event.data;
+
+			if (event.data.status === STATUS.VALIDATE) {
+				number_of_people += 1;
+			}
+
 			const newEvent: EventResponse = {
 				...event?.data,
 				whatsapp_url: undefined,
+				number_of_people,
 				isFull
 			};
 
