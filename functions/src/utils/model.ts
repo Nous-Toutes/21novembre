@@ -15,6 +15,11 @@ export enum STATUS {
 	VALIDATE = 'VALIDATE'
 }
 
+export type Stats = {
+	personne_inscrite: number;
+	evenement_valide: number;
+};
+
 export type Event = {
 	name: string;
 	location: firestore.GeoPoint;
@@ -55,6 +60,7 @@ export type localLeader = {
 	optin: boolean;
 };
 
+export const stats = collection<Stats>('stats');
 export const events = collection<Event>('events');
 export const feminists = subcollection<Feminist, Event>('feminists', events);
 export const leaders = subcollection<localLeader, Event>('leaders', events);
